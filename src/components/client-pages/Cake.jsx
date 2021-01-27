@@ -12,7 +12,7 @@ const Cake = () => {
   const moveCake = () => {
     if (cakeRef !== null) {
       cakeRef.current.animate(cakeAnimation, {
-        id: 'bounce', delay: 4000, duration: 500, iterations: 2,
+        id: 'bounce', delay: 2000, duration: 500, iterations: 2,
       });
     }
   };
