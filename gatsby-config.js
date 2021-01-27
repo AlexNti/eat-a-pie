@@ -1,23 +1,32 @@
 module.exports = {
   siteMetadata: {
-    title: `Pandarinia`,
+    title: 'Pandarinia',
   },
   plugins: [
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `src`,
+        name: 'src',
         path: `${__dirname}/src/`,
       },
     },
-    `gatsby-plugin-emotion`,
-    `gatsby-transformer-remark`,
+    'gatsby-plugin-emotion',
+    'gatsby-transformer-remark',
     'gatsby-plugin-theme-ui',
     {
-      resolve: `gatsby-plugin-typography`,
+      resolve: 'gatsby-plugin-typography',
       options: {
-        pathToConfigModule: `src/utils/typography`,
+        pathToConfigModule: 'src/utils/typography',
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-module-resolver',
+      options: {
+        root: './src',
+        aliases: {
+          components: './components',
+        },
       },
     },
   ],
-}
+};
