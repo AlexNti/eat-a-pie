@@ -1,9 +1,18 @@
 module.exports = {
   siteMetadata: {
-    title: `Title from siteMetadata`,
+    title: `Pandarinia`,
   },
   plugins: [
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `src`,
+        path: `${__dirname}/src/`,
+      },
+    },
     `gatsby-plugin-emotion`,
+    `gatsby-transformer-remark`,
+    'gatsby-plugin-theme-ui',
     {
       resolve: `gatsby-plugin-typography`,
       options: {
