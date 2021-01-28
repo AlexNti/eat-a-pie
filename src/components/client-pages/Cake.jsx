@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Flex } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../animation/cakeAnimations';
+import { useDebounce } from '../../hooks';
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 const Cake = () => {
   const eatMeRef = React.useRef(null);
@@ -9,6 +10,7 @@ const Cake = () => {
   const eatMeRefAnimation = React.useRef(null);
   const movingCakeTimeRef = React.useRef(null);
   const hasAnimationFinish = React.useRef(false);
+  const debounceEatMeHandler = useDebounce(() => { eatMeHandler(); }, 930);
 
   const moveCake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
@@ -47,7 +49,6 @@ const Cake = () => {
 
   const handleCakeAnimationOnClick = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
-      console.log(cakeRef.current.getAnimations());
       if (!cakeRef.current.getAnimations().length) {
         cakeRef.current.animate(bounceCakeKeys, {
           id: 'heartBeat', duration: 1300, easing: 'ease-in-out',
@@ -60,8 +61,8 @@ const Cake = () => {
   const eatMeHandler = React.useCallback(() => {
     stopMovingCakeAnimation();
     if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current) {
-      eatMeRefAnimation.current.play();
-      // eatMeRefAnimation.current.currentTime = eatMeRefAnimation.current.currentTime + 500;
+      // eatMeRefAnimation.current.play();
+      eatMeRefAnimation.current.currentTime = eatMeRefAnimation.current.currentTime + 500;
     }
   }, [eatMeRefAnimation.current]);
 
@@ -114,7 +115,7 @@ const Cake = () => {
         }}
         ref={cakeRef}
         onMouseUp={() => eatMePauseHandler()}
-        onMouseDown={() => eatMeHandler()}
+        onMouseDown={() => debounceEatMeHandler()}
         onClick={() => handleCakeAnimationOnClick()}
       >
         <img ref={eatMeRef} src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake_small.png" srcSet="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake.png 2x" alt="A cake labeled Eat Me" />
