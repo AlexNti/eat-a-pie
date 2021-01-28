@@ -1,14 +1,34 @@
 module.exports = {
+  pathPrefix: '/app',
   siteMetadata: {
-    title: `Title from siteMetadata`,
+    title: 'Agile',
   },
   plugins: [
-    `gatsby-plugin-emotion`,
     {
-      resolve: `gatsby-plugin-typography`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        pathToConfigModule: `src/utils/typography`,
+        name: 'src',
+        path: `${__dirname}/src/`,
+      },
+    },
+    'gatsby-plugin-emotion',
+    'gatsby-transformer-remark',
+    'gatsby-plugin-theme-ui',
+    'gatsby-plugin-react-helmet',
+    {
+      resolve: 'gatsby-plugin-typography',
+      options: {
+        pathToConfigModule: 'src/utils/typography',
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-module-resolver',
+      options: {
+        root: './src',
+        aliases: {
+          components: './components',
+        },
       },
     },
   ],
-}
+};
