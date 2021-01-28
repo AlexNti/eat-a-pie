@@ -61,6 +61,7 @@ const Cake = () => {
     stopMovingCakeAnimation();
     if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current) {
       eatMeRefAnimation.current.play();
+      // eatMeRefAnimation.current.currentTime = eatMeRefAnimation.current.currentTime + 500;
     }
   }, [eatMeRefAnimation.current]);
 
