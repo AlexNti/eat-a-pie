@@ -4,13 +4,14 @@ import { Box, Flex } from 'theme-ui';
 import { tryMeKeys, bounceCakeKeys } from '../../animation/cakeAnimations';
 import { useDebounce } from '../../hooks';
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
+const EAT_CAKE_ANIMATION_DURATION = 2000;
 const Cake = () => {
   const eatMeRef = React.useRef(null);
   const cakeRef = React.useRef(null);
   const eatMeRefAnimation = React.useRef(null);
   const movingCakeTimeRef = React.useRef(null);
   const hasAnimationFinish = React.useRef(false);
-  const debounceEatMeHandler = useDebounce(() => { eatMeHandler(); }, 930);
+  const debounceEatMeHandler = useDebounce(() => { eatMeHandler(); }, 970);
 
   const moveCake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
@@ -29,7 +30,7 @@ const Cake = () => {
         ], {
           fill: 'forwards',
           easing: 'steps(4, end)',
-          duration: 2000,
+          duration: EAT_CAKE_ANIMATION_DURATION,
         },
       );
     }
@@ -63,6 +64,9 @@ const Cake = () => {
     if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current) {
       // eatMeRefAnimation.current.play();
       eatMeRefAnimation.current.currentTime = eatMeRefAnimation.current.currentTime + 500;
+      if (eatMeRefAnimation.current.currentTime >= EAT_CAKE_ANIMATION_DURATION) {
+        eatMeRefAnimation.current.finish();
+      }
     }
   }, [eatMeRefAnimation.current]);
 
