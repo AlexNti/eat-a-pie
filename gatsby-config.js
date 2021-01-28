@@ -1,6 +1,7 @@
 module.exports = {
+  pathPrefix: '/app',
   siteMetadata: {
-    title: 'Pandarinia',
+    title: 'Agile',
   },
   plugins: [
     {

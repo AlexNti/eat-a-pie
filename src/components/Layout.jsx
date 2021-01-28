@@ -1,43 +1,34 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Global, css } from '@emotion/core';
+import { Flex, Text, Box } from 'theme-ui';
 
-import { withTheme } from 'emotion-theming';
-
-const Layout = ({ children, theme }) => (
+const Layout = ({ children }) => (
   <>
     <Helmet title="Agile Actors to kopee to peeta" />
     {/* some styles should applied globally via the layout */}
-    <Global
-      styles={css`
-        * {
-          transition: 0.2s border-color ease-in-out, 0.2s fill ease-in-out,
-            0.2s box-shadow ease-in-out, 0.2s background-color ease-in-out,
-            0.2s color ease-in-out;
-          overflow: -moz-scrollbars-none;
-        }
-        *::-webkit-scrollbar {
-          width: 0 !important;
-        }
-        h1 {
-          font-family: "Montserrat", -apple-system, BlinkMacSystemFont,
-            "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-            "Droid Sans", "Helvetica Neue", sans-serif;
-        }
-        body {
-          margin: 0;
-          padding: 0;
-          min-height: 100vh;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-            "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-            "Helvetica Neue", sans-serif;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-      `}
-    />
-    {children}
+
+    <Flex
+      bg="background"
+      sx={{
+        minHeight: '100vh',
+        height: '10px',
+        maxWidth: '600px',
+        mt: '0',
+        mb: '0',
+        ml: 'auto',
+        mr: 'auto',
+        flexDirection: 'column',
+      }}
+    >
+      <Flex sx={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Box margin="10px">
+          <Text variant="default">Agile Actors Lucky Cake!!</Text>
+        </Box>
+      </Flex>
+
+      {children}
+    </Flex>
   </>
 );
 
-export default withTheme(Layout);
+export default Layout;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from 'theme-ui';
+import { Box, Flex } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../animation/cakeAnimations';
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
@@ -92,22 +92,33 @@ const Cake = () => {
   }, [eatMeRefAnimation.current]);
 
   return (
-    <Box
-      sx={{
-        overflow: 'hidden',
-        height: '226px',
-        position: 'absolute',
-        ':hover': {
-          cursor: 'pointer',
-        },
-      }}
-      ref={cakeRef}
-      onMouseUp={() => eatMePauseHandler()}
-      onMouseDown={() => eatMeHandler()}
-      onClick={() => handleCakeAnimationOnClick()}
+    <Flex sx={{
+      height: '100%',
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
+    }}
     >
-      <img ref={eatMeRef} src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake_small.png" srcSet="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake.png 2x" alt="A cake labeled Eat Me" />
-    </Box>
+      <Box
+        sx={{
+          overflow: 'hidden',
+          height: '226px',
+          position: 'absolute',
+          top: '60px',
+          left: '133px;',
+          ':hover': {
+            cursor: 'pointer',
+          },
+        }}
+        ref={cakeRef}
+        onMouseUp={() => eatMePauseHandler()}
+        onMouseDown={() => eatMeHandler()}
+        onClick={() => handleCakeAnimationOnClick()}
+      >
+        <img ref={eatMeRef} src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake_small.png" srcSet="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake.png 2x" alt="A cake labeled Eat Me" />
+      </Box>
+    </Flex>
   );
 };
 
