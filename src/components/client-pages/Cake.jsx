@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../animation/cakeAnimations';
-
+// TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 const Cake = () => {
   const eatMeRef = React.useRef(null);
   const cakeRef = React.useRef(null);
@@ -37,22 +37,28 @@ const Cake = () => {
   const stopMovingCakeAnimation = () => {
     clearInterval(movingCakeTimeRef.current); // stop the moving animation of cake
     if (cakeRef.current.getAnimations()[0]) {
-      cakeRef.current.getAnimations()[0].cancel(); // also cancel the animation playing
+      cakeRef.current.getAnimations().forEach((animation) => {
+        if (animation.id === 'bounce') {
+          animation.cancel(); // also cancel the animation playing
+        }
+      });
     }
   };
 
   const handleCakeAnimationOnClick = () => {
-    stopMovingCakeAnimation();
     if (cakeRef !== null && !hasAnimationFinish.current) {
       console.log(cakeRef.current.getAnimations());
-      cakeRef.current.animate(bounceCakeKeys, {
-        id: 'heartBeat', duration: 1300, easing: 'ease-in-out',
-      });
+      if (!cakeRef.current.getAnimations().length) {
+        cakeRef.current.animate(bounceCakeKeys, {
+          id: 'heartBeat', duration: 1300, easing: 'ease-in-out',
+        });
+      }
     }
   };
 
   // start the eating animation
   const eatMeHandler = React.useCallback(() => {
+    stopMovingCakeAnimation();
     if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current) {
       eatMeRefAnimation.current.play();
     }
