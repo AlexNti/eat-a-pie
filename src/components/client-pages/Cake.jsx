@@ -1,17 +1,18 @@
 import React from 'react';
 import { Box } from 'theme-ui';
 
-import cakeAnimation from '../../animation/cakeAnimations';
+import { tryMeKeys, bounceCakeKeys } from '../../animation/cakeAnimations';
 
 const Cake = () => {
   const eatMeRef = React.useRef(null);
   const cakeRef = React.useRef(null);
   const eatMeRefAnimation = React.useRef(null);
   const movingCakeTimeRef = React.useRef(null);
+  const hasAnimationFinish = React.useRef(false);
 
   const moveCake = () => {
-    if (cakeRef !== null) {
-      cakeRef.current.animate(cakeAnimation, {
+    if (cakeRef !== null && !hasAnimationFinish.current) {
+      cakeRef.current.animate(tryMeKeys, {
         id: 'bounce', delay: 2000, duration: 500, iterations: 2,
       });
     }
@@ -40,17 +41,26 @@ const Cake = () => {
     }
   };
 
+  const handleCakeAnimationOnClick = () => {
+    stopMovingCakeAnimation();
+    if (cakeRef !== null && !hasAnimationFinish.current) {
+      console.log(cakeRef.current.getAnimations());
+      cakeRef.current.animate(bounceCakeKeys, {
+        id: 'heartBeat', duration: 1300, easing: 'ease-in-out',
+      });
+    }
+  };
+
   // start the eating animation
   const eatMeHandler = React.useCallback(() => {
-    stopMovingCakeAnimation();
-    if (eatMeRefAnimation !== null && eatMeRefAnimation.current) {
+    if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current) {
       eatMeRefAnimation.current.play();
     }
   }, [eatMeRefAnimation.current]);
 
   // pause the eating animation
   const eatMePauseHandler = React.useCallback(() => {
-    if (eatMeRefAnimation !== null && eatMeRefAnimation.current) {
+    if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current) {
       eatMeRefAnimation.current.pause();
     }
   }, [eatMeRefAnimation.current]);
@@ -69,8 +79,27 @@ const Cake = () => {
     }
   }, []);
 
+  React.useEffect(() => {
+    if (eatMeRefAnimation.current !== null) {
+      eatMeRefAnimation.current.onfinish = () => { hasAnimationFinish.current = true; };
+    }
+  }, [eatMeRefAnimation.current]);
+
   return (
-    <Box sx={{ overflow: 'hidden', height: '226px', position: 'absolute' }} ref={cakeRef} onMouseUp={() => eatMePauseHandler()} onMouseDown={() => eatMeHandler()}>
+    <Box
+      sx={{
+        overflow: 'hidden',
+        height: '226px',
+        position: 'absolute',
+        ':hover': {
+          cursor: 'pointer',
+        },
+      }}
+      ref={cakeRef}
+      onMouseUp={() => eatMePauseHandler()}
+      onMouseDown={() => eatMeHandler()}
+      onClick={() => handleCakeAnimationOnClick()}
+    >
       <img ref={eatMeRef} src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake_small.png" srcSet="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake.png 2x" alt="A cake labeled Eat Me" />
     </Box>
   );

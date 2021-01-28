@@ -1,4 +1,4 @@
-const tryMeKeys = [
+export const tryMeKeys = [
   { transform: 'translateY(0) scale(1, 1) rotate(0)', easing: 'ease-in' },
   { transform: 'translateY(0) scale(1.1, .9) rotate(0)' },
   { transform: 'translateY(-10%) scale(.9, 1.1) rotate(0)', offset: 0.4 },
@@ -8,4 +8,10 @@ const tryMeKeys = [
   { transform: 'translateY(0) scale(1, 1) rotate(0)' },
 ];
 
-export default tryMeKeys;
+export const bounceCakeKeys = [
+  { transform: 'scale(1)' },
+  { transform: 'scale(1.2)', offset: 0.14 },
+  { transform: 'scale(1.4)', offset: 0.42 },
+  { transform: 'scale(1)', offset: 0.70 },
+
+];
