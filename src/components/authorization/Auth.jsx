@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex, Button } from 'theme-ui'
 
-import withAuthorization from './withAuthorization'
+import withAuthorization from '../withAuthorization'
 
 const Auth = ({ handleSignIn }) => (
   <Flex
@@ -13,12 +13,11 @@ const Auth = ({ handleSignIn }) => (
       position: 'relative',
     }}
   >
-    {/* TODO: push to app route on successful sign in and wrap the App Component with isAuthorized in order to view the protected route */}
     <Button
       sx={{
         height: '254px',
         width: '254px',
-        color: '#3DADD9',
+        color: 'background',
         backgroundColor: '#fff',
         border: 0,
         borderRadius: '50%',
@@ -33,4 +32,4 @@ const Auth = ({ handleSignIn }) => (
   </Flex>
 )
 
-export default withAuthorization(Auth)
+export default withAuthorization({ path: '/app/' })(Auth)
