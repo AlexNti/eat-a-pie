@@ -5,16 +5,20 @@ import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import AnimatedEatCake from './components/AnimatedEatCake';
 
 import { useAuth } from '../../../hooks';
+import { getPrice } from '../../../utils'
+import { auth } from '../../providers/authProvider/firebase'
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 const EAT_CAKE_ANIMATION_DURATION = 2000;
 const Cake = () => {
-  const auth = useAuth();
+  const authContext = useAuth();
   const eatMeRef = React.useRef(null);
   const cakeRef = React.useRef(null);
   const eatMeRefAnimation = React.useRef(null);
   const movingCakeTimeRef = React.useRef(null);
   const hasAnimationFinish = React.useRef(false);
   const [isEatmeAnimationActive, setIsEatmeAnimationActive] = React.useState(false);
+  const [isFetchingPrice, setIsFetchingPrice] = React.useState(false);
+  const [price, setPrice] = React.useState(false);
 
   const moveCake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
@@ -69,7 +73,6 @@ const Cake = () => {
 
   // start the eating animation
   const eatMeHandler = React.useCallback(() => {
-    auth.signIn();
     stopMovingCakeAnimation();
     if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current && !isEatmeAnimationActive) {
       // eatMeRefAnimation.current.play();
@@ -80,7 +83,7 @@ const Cake = () => {
         eatMeRefAnimation.current.finish();
       }
     }
-  }, [eatMeRefAnimation.current, isEatmeAnimationActive, auth]);
+  }, [eatMeRefAnimation.current, isEatmeAnimationActive, authContext]);
 
   // pause the eating animation
   const eatMePauseHandler = React.useCallback(() => {
@@ -109,6 +112,20 @@ const Cake = () => {
     }
   }, [eatMeRefAnimation.current]);
 
+  React.useEffect(() => {
+    async function fetchPrice() {
+      if (hasAnimationFinish.current) {
+        setIsFetchingPrice(true);
+        const token = await auth.currentUser.getIdToken()
+        const result = await getPrice(token)
+        setPrice(result);
+        setIsFetchingPrice(false);
+      }
+    }
+
+    fetchPrice()
+  }, [hasAnimationFinish.current])
+
   return (
     <Flex sx={{
       height: '100%',
@@ -135,6 +152,7 @@ const Cake = () => {
       >
         <AnimatedEatCake ref={eatMeRef} />
       </Box>
+      {isFetchingPrice && <Box sx={{ height: '60px', width: '100%' }}>*Drum roll...*</Box>}
     </Flex>
   );
 };
