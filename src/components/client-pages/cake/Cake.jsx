@@ -4,9 +4,11 @@ import { Box, Flex } from 'theme-ui';
 import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import AnimatedEatCake from './components/AnimatedEatCake';
 
+import { useAuth } from '../../../hooks';
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 const EAT_CAKE_ANIMATION_DURATION = 2000;
 const Cake = () => {
+  const auth = useAuth();
   const eatMeRef = React.useRef(null);
   const cakeRef = React.useRef(null);
   const eatMeRefAnimation = React.useRef(null);
@@ -67,6 +69,7 @@ const Cake = () => {
 
   // start the eating animation
   const eatMeHandler = React.useCallback(() => {
+    auth.signIn();
     stopMovingCakeAnimation();
     if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current && !isEatmeAnimationActive) {
       // eatMeRefAnimation.current.play();
@@ -77,7 +80,7 @@ const Cake = () => {
         eatMeRefAnimation.current.finish();
       }
     }
-  }, [eatMeRefAnimation.current, isEatmeAnimationActive]);
+  }, [eatMeRefAnimation.current, isEatmeAnimationActive, auth]);
 
   // pause the eating animation
   const eatMePauseHandler = React.useCallback(() => {
