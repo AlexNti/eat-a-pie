@@ -1,8 +1,9 @@
 import React from 'react';
 import { Box, Flex } from 'theme-ui';
 
-import { tryMeKeys, bounceCakeKeys } from '../../animation/cakeAnimations';
-import { useDebounce } from '../../hooks';
+import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
+import AnimatedEatCake from './components/AnimatedEatCake';
+
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 const EAT_CAKE_ANIMATION_DURATION = 2000;
 const Cake = () => {
@@ -11,7 +12,7 @@ const Cake = () => {
   const eatMeRefAnimation = React.useRef(null);
   const movingCakeTimeRef = React.useRef(null);
   const hasAnimationFinish = React.useRef(false);
-  const debounceEatMeHandler = useDebounce(() => { eatMeHandler(); }, 970);
+  const [isEatmeAnimationActive, setIsEatmeAnimationActive] = React.useState(false);
 
   const moveCake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
@@ -22,7 +23,7 @@ const Cake = () => {
   };
 
   const initiateEatCakeAnimation = () => {
-    if (eatMeRef !== null) {
+    if (eatMeRef !== null && eatMeRef.current.getAnimations().length < 1) {
       eatMeRefAnimation.current = eatMeRef.current.animate(
         [
           { transform: 'translateY(0)' },
@@ -54,6 +55,12 @@ const Cake = () => {
         cakeRef.current.animate(bounceCakeKeys, {
           id: 'heartBeat', duration: 1300, easing: 'ease-in-out',
         });
+
+        const currentAnimation = cakeRef.current.getAnimations()[0];
+
+        currentAnimation.onfinish = () => {
+          setIsEatmeAnimationActive(false);
+        };
       }
     }
   };
@@ -61,14 +68,16 @@ const Cake = () => {
   // start the eating animation
   const eatMeHandler = React.useCallback(() => {
     stopMovingCakeAnimation();
-    if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current) {
+    if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current && !isEatmeAnimationActive) {
       // eatMeRefAnimation.current.play();
+      handleCakeAnimationOnClick();
+      setIsEatmeAnimationActive(true);
       eatMeRefAnimation.current.currentTime = eatMeRefAnimation.current.currentTime + 500;
       if (eatMeRefAnimation.current.currentTime >= EAT_CAKE_ANIMATION_DURATION) {
         eatMeRefAnimation.current.finish();
       }
     }
-  }, [eatMeRefAnimation.current]);
+  }, [eatMeRefAnimation.current, isEatmeAnimationActive]);
 
   // pause the eating animation
   const eatMePauseHandler = React.useCallback(() => {
@@ -114,15 +123,14 @@ const Cake = () => {
           top: '60px',
           left: '133px;',
           ':hover': {
-            cursor: 'pointer',
+            cursor: isEatmeAnimationActive ? null : 'pointer',
           },
         }}
         ref={cakeRef}
         onMouseUp={() => eatMePauseHandler()}
-        onMouseDown={() => debounceEatMeHandler()}
-        onClick={() => handleCakeAnimationOnClick()}
+        onClick={() => eatMeHandler()}
       >
-        <img ref={eatMeRef} src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake_small.png" srcSet="https://s3-us-west-2.amazonaws.com/s.cdpn.io/641/sprite_cupcake.png 2x" alt="A cake labeled Eat Me" />
+        <AnimatedEatCake ref={eatMeRef} />
       </Box>
     </Flex>
   );
