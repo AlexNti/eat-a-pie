@@ -1,60 +1,68 @@
 /** Some features of this function are experimental
  * and they are going to used in feature releases */
 
-import React from 'react';
+import React from 'react'
 
-import { auth } from './firebase';
+import { auth } from './firebase'
 
 const AuthContext = React.createContext({
   isAuthenticated: false,
   userInfo: null,
   signOut: () => null,
   signIn: () => null,
-});
+})
 
 const AuthProvider = ({ children, authenticationService }) => {
-  const isAuthenticated = React.useRef(false);
-  const [authUser, setAuthUser] = React.useState(null);
+  const isAuthenticated = React.useRef(false)
+  const [authUser, setAuthUser] = React.useState(null)
 
   React.useEffect(() => {
     // Verify the ID token first.
     // TODO add gogole play games services silent login on authcontet when is not expo client
 
-    auth.onAuthStateChanged(async (user) => {
+    auth.onAuthStateChanged(async user => {
       if (user) {
-        console.log({ user });
-        isAuthenticated.current = true;
-        setAuthUser(user);
+        console.log({ user })
+        isAuthenticated.current = true
+        setAuthUser(user)
       } else {
-        isAuthenticated.current = false;
-        setAuthUser(null);
+        isAuthenticated.current = false
+        setAuthUser(null)
       }
-    });
-  }, []);
+    })
+  }, [])
 
   const userInfo = React.useMemo(() => {
     if (authUser) {
       const {
-        displayName, email, phoneNumber, photoURL, providerId, uid,
-      } = authUser;
+        displayName,
+        email,
+        phoneNumber,
+        photoURL,
+        providerId,
+        uid,
+      } = authUser
       return {
-        displayName, email, phoneNumber, photoURL, providerId, uid,
-      };
+        displayName,
+        email,
+        phoneNumber,
+        photoURL,
+        providerId,
+        uid,
+      }
     }
-    return null;
-  }, [authUser]);
+    return null
+  }, [authUser])
 
   const signOut = React.useCallback(
-    ({ onSuccess = () => {}, onError = () => {} } = {}) => auth.signOut().then(onSuccess).catch(onError),
-    [],
-  );
+    ({ onSuccess = () => {}, onError = () => {} } = {}) =>
+      auth.signOut().then(onSuccess).catch(onError),
+    []
+  )
 
-  const signIn = React.useCallback(
-    () => {
-      authenticationService.signIn();
-    },
-    [],
-  );
+  const signIn = React.useCallback(() => {
+    authenticationService.signIn()
+  }, [])
 
   const contextValue = React.useMemo(
     () => ({
@@ -63,12 +71,14 @@ const AuthProvider = ({ children, authenticationService }) => {
       signOut,
       signIn,
     }),
-    [isAuthenticated.current, userInfo],
-  );
+    [isAuthenticated.current, userInfo]
+  )
 
-  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
-};
+  return (
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  )
+}
 
-const memoizedProvider = React.memo(AuthProvider);
+const memoizedProvider = React.memo(AuthProvider)
 
-export { AuthContext, memoizedProvider as AuthProvider };
+export { AuthContext, memoizedProvider as AuthProvider }
