@@ -16,6 +16,7 @@
   "dependencies": {
     "@emotion/react": "^11.1.4",
     "@fontsource/londrina-solid": "^4.1.0",
+    "firebase": "^8.2.5",
     "gatsby": "^2.26.1",
     "gatsby-plugin-emotion": "^5.2.0",
     "gatsby-plugin-module-resolver": "^1.0.3",
