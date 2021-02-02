@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Flex } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
-import { useDebounce } from '../../../hooks';
 import AnimatedEatCake from './components/AnimatedEatCake';
 
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
