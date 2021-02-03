@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react'
-import { useAuth } from '../hooks'
+import React, { useEffect } from 'react';
+import { useAuth } from '../hooks';
 
-import { navigate } from 'gatsby'
+import { navigate } from 'gatsby';
 
 const withAuthorization = redirect => Component => props => {
-  const auth = useAuth()
-  const authenticated = auth?.isAuthenticated
-  const toPath = redirect?.path
+  const auth = useAuth();
+  const authenticated = auth?.isAuthenticated;
+  const toPath = redirect?.path;
 
   const handleSignIn = () => {
-    auth.signIn()
-  }
+    auth.signIn();
+  };
 
   useEffect(() => {
     if (authenticated === true && !!toPath) {
-      navigate(toPath)
+      navigate(toPath);
     }
-  }, [authenticated, toPath])
+  }, [authenticated, toPath]);
 
   return (
     <Component
@@ -24,7 +24,7 @@ const withAuthorization = redirect => Component => props => {
       authenticated={authenticated}
       {...props}
     />
-  )
-}
+  );
+};
 
-export default withAuthorization
+export default withAuthorization;

@@ -1,7 +1,7 @@
-import React from 'react'
-import { Flex, Button } from 'theme-ui'
+import React from 'react';
+import { Flex, Button } from 'theme-ui';
 
-import withAuthorization from '../withAuthorization'
+import withAuthorization from '../withAuthorization';
 
 const Auth = ({ handleSignIn }) => (
   <Flex
@@ -30,6 +30,6 @@ const Auth = ({ handleSignIn }) => (
       <div>Sign In</div>
     </Button>
   </Flex>
-)
+);
 
-export default withAuthorization({ path: '/app/' })(Auth)
+export default withAuthorization({ path: '/app/' })(Auth);
