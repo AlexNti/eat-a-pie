@@ -5,7 +5,7 @@ import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import AnimatedEatCake from './components/AnimatedEatCake';
 
 import { useAuth } from '../../../hooks';
-import { getPrice } from '../../../utils'
+import { getPrize } from '../../../utils';
 import { auth } from '../../providers/authProvider/firebase'
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 const EAT_CAKE_ANIMATION_DURATION = 2000;
@@ -17,8 +17,8 @@ const Cake = () => {
   const movingCakeTimeRef = React.useRef(null);
   const hasAnimationFinish = React.useRef(false);
   const [isEatmeAnimationActive, setIsEatmeAnimationActive] = React.useState(false);
-  const [isFetchingPrice, setIsFetchingPrice] = React.useState(false);
-  const [price, setPrice] = React.useState(false);
+  const [isFetchingPrize, setIsFetchingPrize] = React.useState(false);
+  const [prize, setPrize] = React.useState();
 
   const moveCake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
@@ -115,16 +115,32 @@ const Cake = () => {
   React.useEffect(() => {
     async function fetchPrice() {
       if (hasAnimationFinish.current) {
-        setIsFetchingPrice(true);
-        const token = await auth.currentUser.getIdToken()
-        const result = await getPrice(token)
-        setPrice(result);
-        setIsFetchingPrice(false);
+        setIsFetchingPrize(true);
+        const token = await auth.currentUser.getIdToken();
+        const result = await getPrize(token);
+        setPrize(result);
+        setIsFetchingPrize(false);
       }
     }
 
-    fetchPrice()
-  }, [hasAnimationFinish.current])
+    fetchPrice();
+  }, [hasAnimationFinish.current]);
+
+  const getPrizeMessage = ({ data, message }) => {
+    // No coins left
+    if (message === 'User has no tries left') return 'You already ate your cake!'
+
+    const gifts = Object.keys(data.gifts);
+    const hasGifts = gifts.length > 0;
+    // No gift
+    if (!hasGifts) return 'You didn\'t win any prize :(';
+
+    // Gift won
+    const key = gifts[0];
+    if (hasGifts) return `Congratulations! You won a ${data.gifts[key].name}`;
+
+    return '';
+  };
 
   return (
     <Flex sx={{
@@ -152,7 +168,8 @@ const Cake = () => {
       >
         <AnimatedEatCake ref={eatMeRef} />
       </Box>
-      {isFetchingPrice && <Box sx={{ height: '60px', width: '100%' }}>*Drum roll...*</Box>}
+      {isFetchingPrize && <Box sx={{ height: '60px', width: '100%' }}>*Drum roll...*</Box>}
+      {prize && <Box>{getPrizeMessage(prize)}</Box>}
     </Flex>
   );
 };

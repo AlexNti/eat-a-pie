@@ -2,6 +2,6 @@ import lazyLoad from './lazyLoad'
 import ProtectedRoute from './ProtectedRoute'
 import isBrowser from './isBrowser'
 import typography from './typography'
-import getPrice from './getPrice'
+import getPrize from './getPrize'
 
-export { lazyLoad, ProtectedRoute, isBrowser, typography, getPrice }
+export { lazyLoad, ProtectedRoute, isBrowser, typography, getPrize }
