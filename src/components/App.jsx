@@ -1,8 +1,16 @@
-import React from 'react';
-import { Router } from '@reach/router';
+import React from 'react'
+import { Router } from '@reach/router'
 
-import Cake from './client-pages/Cake/Cake';
+import { ProtectedRoute } from '../utils'
 
-const App = () => <Router style={{ height: '100%', width: '100%' }} basepath="/app"><Cake path="/" /></Router>;
+import { Cake } from './routes'
 
-export default App;
+import withAuthorization from './withAuthorization.jsx'
+
+const App = ({ authenticated }) => (
+  <Router style={{ height: '100%', width: '100%' }} basepath="/app">
+    <ProtectedRoute path="/" authenticated={authenticated} component={Cake} />
+  </Router>
+)
+
+export default withAuthorization({})(App)
