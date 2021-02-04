@@ -1,6 +1,6 @@
 export default async function (token) {
   try {
-    const url = `${process.env.GATSBY_BASE_URL}/${process.env.GATSBY_PRICE_URL}`;
+    const url = `${process.env.GATSBY_BASE_URL}/${process.env.GATSBY_PRIZE_URL}`;
     const result = await fetch(url, {
       method: 'GET',
       headers: {

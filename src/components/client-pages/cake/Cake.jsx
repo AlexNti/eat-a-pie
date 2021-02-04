@@ -113,7 +113,7 @@ const Cake = () => {
   }, [eatMeRefAnimation.current]);
 
   React.useEffect(() => {
-    async function fetchPrice() {
+    async function fetchPrize() {
       if (hasAnimationFinish.current) {
         setIsFetchingPrize(true);
         const token = await auth.currentUser.getIdToken();
@@ -123,7 +123,7 @@ const Cake = () => {
       }
     }
 
-    fetchPrice();
+    fetchPrize();
   }, [hasAnimationFinish.current]);
 
   const getPrizeMessage = ({ data, message }) => {
