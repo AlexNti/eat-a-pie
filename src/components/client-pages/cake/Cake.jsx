@@ -5,16 +5,20 @@ import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import AnimatedEatCake from './components/AnimatedEatCake';
 
 import { useAuth } from '../../../hooks';
+import { getPrize } from '../../../utils';
+import { auth } from '../../providers/authProvider/firebase'
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 const EAT_CAKE_ANIMATION_DURATION = 2000;
 const Cake = () => {
-  const auth = useAuth();
+  const authContext = useAuth();
   const eatMeRef = React.useRef(null);
   const cakeRef = React.useRef(null);
   const eatMeRefAnimation = React.useRef(null);
   const movingCakeTimeRef = React.useRef(null);
   const hasAnimationFinish = React.useRef(false);
   const [isEatmeAnimationActive, setIsEatmeAnimationActive] = React.useState(false);
+  const [isFetchingPrize, setIsFetchingPrize] = React.useState(false);
+  const [prize, setPrize] = React.useState();
 
   const moveCake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
@@ -69,7 +73,6 @@ const Cake = () => {
 
   // start the eating animation
   const eatMeHandler = React.useCallback(() => {
-    auth.signIn();
     stopMovingCakeAnimation();
     if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current && !isEatmeAnimationActive) {
       // eatMeRefAnimation.current.play();
@@ -80,7 +83,7 @@ const Cake = () => {
         eatMeRefAnimation.current.finish();
       }
     }
-  }, [eatMeRefAnimation.current, isEatmeAnimationActive, auth]);
+  }, [eatMeRefAnimation.current, isEatmeAnimationActive, authContext]);
 
   // pause the eating animation
   const eatMePauseHandler = React.useCallback(() => {
@@ -109,6 +112,36 @@ const Cake = () => {
     }
   }, [eatMeRefAnimation.current]);
 
+  React.useEffect(() => {
+    async function fetchPrize() {
+      if (hasAnimationFinish.current) {
+        setIsFetchingPrize(true);
+        const token = await auth.currentUser.getIdToken();
+        const result = await getPrize(token);
+        setPrize(result);
+        setIsFetchingPrize(false);
+      }
+    }
+
+    fetchPrize();
+  }, [hasAnimationFinish.current]);
+
+  const getPrizeMessage = ({ data, message }) => {
+    // No coins left
+    if (message === 'User has no tries left') return 'You already ate your cake!'
+
+    const gifts = Object.keys(data.gifts);
+    const hasGifts = gifts.length > 0;
+    // No gift
+    if (!hasGifts) return 'You didn\'t win any prize :(';
+
+    // Gift won
+    const key = gifts[0];
+    if (hasGifts) return `Congratulations! You won a ${data.gifts[key].name}`;
+
+    return '';
+  };
+
   return (
     <Flex sx={{
       height: '100%',
@@ -135,6 +168,8 @@ const Cake = () => {
       >
         <AnimatedEatCake ref={eatMeRef} />
       </Box>
+      {isFetchingPrize && <Box sx={{ height: '60px', width: '100%' }}>*Drum roll...*</Box>}
+      {prize && <Box>{getPrizeMessage(prize)}</Box>}
     </Flex>
   );
 };
