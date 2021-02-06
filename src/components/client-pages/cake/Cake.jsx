@@ -1,12 +1,12 @@
 import React from 'react';
-import { Box, Flex } from 'theme-ui';
+import { Box, Flex, Spinner } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import AnimatedEatCake from './components/AnimatedEatCake';
 
 import { useAuth } from '../../../hooks';
-import { getPrize } from '../../../utils';
-import { auth } from '../../providers/authProvider/firebase'
+import { getHistory, getPrize, isCakeEaten } from '../../../utils';
+import { auth } from '../../providers/authProvider/firebase';
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 const EAT_CAKE_ANIMATION_DURATION = 2000;
 const Cake = () => {
@@ -19,6 +19,9 @@ const Cake = () => {
   const [isEatmeAnimationActive, setIsEatmeAnimationActive] = React.useState(false);
   const [isFetchingPrize, setIsFetchingPrize] = React.useState(false);
   const [prize, setPrize] = React.useState();
+  const [isReady, setIsReady] = React.useState(false);
+  const [hasEatenCake, setHasEatenCake] = React.useState(false);
+  const [gift, setGift] = React.useState('');
 
   const moveCake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
@@ -78,7 +81,7 @@ const Cake = () => {
       // eatMeRefAnimation.current.play();
       handleCakeAnimationOnClick();
       setIsEatmeAnimationActive(true);
-      eatMeRefAnimation.current.currentTime = eatMeRefAnimation.current.currentTime + 500;
+      eatMeRefAnimation.current.currentTime += 500;
       if (eatMeRefAnimation.current.currentTime >= EAT_CAKE_ANIMATION_DURATION) {
         eatMeRefAnimation.current.finish();
       }
@@ -92,6 +95,28 @@ const Cake = () => {
     }
   }, [eatMeRefAnimation.current]);
 
+  const getPrizeMessage = ({ data, message }) => {
+    // No coins left
+    if (message === 'User has no tries left') return 'You already ate your cake!'
+
+    const gifts = Object.keys(data.gifts);
+    const hasGifts = gifts.length > 0;
+    // No gift
+    if (!hasGifts) return 'You didn\'t win any prize :(';
+
+    // Gift won
+    const key = gifts[0];
+    if (hasGifts) return `Congratulations! You won a ${data.gifts[key].name}`;
+
+    return '';
+  };
+
+  const getHistoryMessage = (name) => {
+    if (name === '') return 'You didn\'t won any gifts :(';
+
+    return `You won a ${name}`;
+  };
+
   // add eating animation to cake
   React.useEffect(() => {
     if (eatMeRef.current !== null) {
@@ -104,6 +129,18 @@ const Cake = () => {
     if (cakeRef.current !== null) {
       movingCakeTimeRef.current = setInterval(moveCake, 4000);
     }
+  }, []);
+
+  // check if user has already eaten the cake
+  React.useEffect(() => {
+    async function checkCake() {
+      const token = await auth.currentUser.getIdToken();
+      const { data: { hasUserEatTheCake } } = await isCakeEaten(token);
+      setHasEatenCake(hasUserEatTheCake);
+      setIsReady(true);
+    }
+
+    checkCake();
   }, []);
 
   React.useEffect(() => {
@@ -126,21 +163,22 @@ const Cake = () => {
     fetchPrize();
   }, [hasAnimationFinish.current]);
 
-  const getPrizeMessage = ({ data, message }) => {
-    // No coins left
-    if (message === 'User has no tries left') return 'You already ate your cake!'
+  React.useEffect(() => {
+    // this ref should be already set byt this time
+    async function getGifts() {
+      if (hasEatenCake) {
+        eatMeRefAnimation.current.currentTime = EAT_CAKE_ANIMATION_DURATION;
+        const token = await auth.currentUser.getIdToken();
+        const { data: { giftsHistory } } = await getHistory(token);
+        setGift(() => {
+          const giftName = giftsHistory['0'] ? giftsHistory['0'].name : '';
+          return giftName;
+        });
+      }
+    }
 
-    const gifts = Object.keys(data.gifts);
-    const hasGifts = gifts.length > 0;
-    // No gift
-    if (!hasGifts) return 'You didn\'t win any prize :(';
-
-    // Gift won
-    const key = gifts[0];
-    if (hasGifts) return `Congratulations! You won a ${data.gifts[key].name}`;
-
-    return '';
-  };
+    getGifts();
+  }, [hasEatenCake]);
 
   return (
     <Flex sx={{
@@ -166,10 +204,15 @@ const Cake = () => {
         onMouseUp={() => eatMePauseHandler()}
         onClick={() => eatMeHandler()}
       >
-        <AnimatedEatCake ref={eatMeRef} />
+        {!isReady && <Spinner />}
+        <AnimatedEatCake ref={eatMeRef} isReady={isReady} />
       </Box>
       {isFetchingPrize && <Box sx={{ height: '60px', width: '100%' }}>*Drum roll...*</Box>}
       {prize && <Box>{getPrizeMessage(prize)}</Box>}
+      <div>
+        {hasEatenCake && <Box>Gluttony is a sin!</Box>}
+        {gift && <Box>{getHistoryMessage(gift)}</Box>}
+      </div>
     </Flex>
   );
 };
