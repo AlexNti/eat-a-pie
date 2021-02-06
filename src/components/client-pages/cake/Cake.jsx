@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex } from 'theme-ui';
+import { Box, Flex, Spinner } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import AnimatedEatCake from './components/AnimatedEatCake';
@@ -19,6 +19,7 @@ const Cake = () => {
   const [isEatmeAnimationActive, setIsEatmeAnimationActive] = React.useState(false);
   const [isFetchingPrize, setIsFetchingPrize] = React.useState(false);
   const [prize, setPrize] = React.useState();
+  const [isReady, setIsReady] = React.useState(false);
   const [hasEatenCake, setHasEatenCake] = React.useState(false);
   const [gift, setGift] = React.useState('');
 
@@ -136,6 +137,7 @@ const Cake = () => {
       const token = await auth.currentUser.getIdToken();
       const { data: { hasUserEatTheCake } } = await isCakeEaten(token);
       setHasEatenCake(hasUserEatTheCake);
+      setIsReady(true);
     }
 
     checkCake();
@@ -202,7 +204,8 @@ const Cake = () => {
         onMouseUp={() => eatMePauseHandler()}
         onClick={() => eatMeHandler()}
       >
-        <AnimatedEatCake ref={eatMeRef} />
+        {!isReady && <Spinner />}
+        <AnimatedEatCake ref={eatMeRef} isReady={isReady} />
       </Box>
       {isFetchingPrize && <Box sx={{ height: '60px', width: '100%' }}>*Drum roll...*</Box>}
       {prize && <Box>{getPrizeMessage(prize)}</Box>}
