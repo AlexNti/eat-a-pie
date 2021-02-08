@@ -199,32 +199,23 @@ const Cake = () => {
       position: 'relative',
     }}
     >
-      <CakeModal />
-      {/* <Box
-        sx={{
-          overflow: 'hidden',
-          height: '226px',
-          position: 'absolute',
-          top: '60px',
-          left: '133px;',
-          ':hover': {
-            cursor: isEatmeAnimationActive ? null : 'pointer',
-          },
-        }}
-        ref={cakeRef}
-        onMouseUp={() => eatMePauseHandler()}
-        onClick={() => eatMeHandler()}
-      >
-        {!isReady && <Spinner />}
-        {!isActivated && <Box>You are not activated. Please contact executive office manager.</Box>}
-        <AnimatedEatCake ref={eatMeRef} isReady={canEatCake} />
-      </Box>
+      <CakeModal
+        eatMePauseHandler={eatMePauseHandler}
+        isEatmeAnimationActive={isEatmeAnimationActive}
+        eatMeHandler={eatMeHandler}
+        isReady={isReady}
+        isActivated={isActivated}
+        eatMeRef={eatMeRef}
+        canEatCake={canEatCake}
+        cakeRef={cakeRef}
+      />
+
       {isFetchingPrize && <Box sx={{ height: '60px', width: '100%' }}>*Drum roll...*</Box>}
       {prize && <Box>{getPrizeMessage(prize)}</Box>}
       <div>
         {hasEatenCake && <Box>Gluttony is a sin!</Box>}
         {gift && <Box>{getHistoryMessage(gift)}</Box>}
-      </div> */}
+      </div>
     </Flex>
   );
 };
