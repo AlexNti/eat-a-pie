@@ -9,8 +9,12 @@ export default async (token) => {
       },
     });
 
+    if (result.status === 409) {
+      throw Error('Not Activated');
+    }
+
     return result.json();
   } catch (e) {
-    console.log(e);
+    return Promise.resolve({ data: {}, error: 'Not Activated' });
   }
 }
