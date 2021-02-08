@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Flex, Spinner } from 'theme-ui';
-import AnimatedEatCake from './AnimatedEatCake';
+import EatTheCake from './EatTheCake';
 
 const CakeModal = ({
   cakeRef,
@@ -22,26 +22,17 @@ const CakeModal = ({
     overflow: 'hidden',
   }}
   >
-    <Box
-      sx={{
-        overflow: 'hidden',
-        height: '226px',
-        position: 'absolute',
-        zIndex: 1,
-        top: '71px',
-        left: '187px;',
-        ':hover': {
-          cursor: isEatmeAnimationActive ? null : 'pointer',
-        },
-      }}
-      ref={cakeRef}
-      onMouseUp={() => eatMePauseHandler()}
-      onClick={() => eatMeHandler()}
-    >
-      {!isReady && <Spinner />}
-      {!isActivated && <Box>You are not activated. Please contact executive office manager.</Box>}
-      <AnimatedEatCake ref={eatMeRef} isReady={canEatCake} />
-    </Box>
+    <EatTheCake
+      cakeRef={cakeRef}
+      eatMePauseHandler={eatMePauseHandler}
+      eatMeHandler={eatMeHandler}
+      isReady={isReady}
+      isActivated={isActivated}
+      eatMeRef={eatMeRef}
+      canEatCake={canEatCake}
+      isEatmeAnimationActive={isEatmeAnimationActive}
+    />
+
     <Box sx={{
       position: 'absolute',
       top: '96px',
