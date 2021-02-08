@@ -98,7 +98,7 @@ const Cake = () => {
 
   const getPrizeMessage = ({ data, message }) => {
     // No coins left
-    if (message === 'User has no tries left') return 'You already ate your cake!'
+    if (message === 'User has no tries left') return 'You already ate your cake!';
 
     const gifts = Object.keys(data.gifts);
     const hasGifts = gifts.length > 0;
@@ -138,7 +138,7 @@ const Cake = () => {
       const token = await auth.currentUser.getIdToken();
       const { data: { hasUserEatTheCake }, error } = await isCakeEaten(token);
 
-      if (typeof error == 'undefined') {
+      if (typeof error === 'undefined') {
         setIsActivated(true);
         setHasEatenCake(hasUserEatTheCake);
       }
@@ -176,7 +176,7 @@ const Cake = () => {
         const token = await auth.currentUser.getIdToken();
         const { data: { giftsHistory }, error } = await getHistory(token);
 
-        if (typeof error == 'undefined') {
+        if (typeof error === 'undefined') {
           setGift(() => {
             const giftName = giftsHistory['0'] ? giftsHistory['0'].name : '';
             return giftName;
