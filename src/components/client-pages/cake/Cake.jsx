@@ -3,6 +3,7 @@ import { Box, Flex, Spinner } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import AnimatedEatCake from './components/AnimatedEatCake';
+import CakeModal from './components/CakeModal';
 
 import { useAuth } from '../../../hooks';
 import { getHistory, getPrize, isCakeEaten } from '../../../utils';
@@ -198,7 +199,8 @@ const Cake = () => {
       position: 'relative',
     }}
     >
-      <Box
+      <CakeModal />
+      {/* <Box
         sx={{
           overflow: 'hidden',
           height: '226px',
@@ -222,7 +224,7 @@ const Cake = () => {
       <div>
         {hasEatenCake && <Box>Gluttony is a sin!</Box>}
         {gift && <Box>{getHistoryMessage(gift)}</Box>}
-      </div>
+      </div> */}
     </Flex>
   );
 };

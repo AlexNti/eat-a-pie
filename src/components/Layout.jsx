@@ -12,7 +12,7 @@ const Layout = ({ children }) => (
       sx={{
         minHeight: '100vh',
         height: '10px',
-        maxWidth: '600px',
+        width: '100%',
         mt: '0',
         mb: '0',
         ml: 'auto',
