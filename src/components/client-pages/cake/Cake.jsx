@@ -22,6 +22,7 @@ const Cake = () => {
   const [isReady, setIsReady] = React.useState(false);
   const [hasEatenCake, setHasEatenCake] = React.useState(false);
   const [gift, setGift] = React.useState('');
+  const [isActivated, setIsActivated] = React.useState(false);
 
   const moveCake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
@@ -135,8 +136,12 @@ const Cake = () => {
   React.useEffect(() => {
     async function checkCake() {
       const token = await auth.currentUser.getIdToken();
-      const { data: { hasUserEatTheCake } } = await isCakeEaten(token);
-      setHasEatenCake(hasUserEatTheCake);
+      const { data: { hasUserEatTheCake }, error } = await isCakeEaten(token);
+
+      if (typeof error == 'undefined') {
+        setIsActivated(true);
+        setHasEatenCake(hasUserEatTheCake);
+      }
       setIsReady(true);
     }
 
@@ -169,17 +174,21 @@ const Cake = () => {
       if (hasEatenCake) {
         eatMeRefAnimation.current.currentTime = EAT_CAKE_ANIMATION_DURATION;
         const token = await auth.currentUser.getIdToken();
-        const { data: { giftsHistory } } = await getHistory(token);
-        setGift(() => {
-          const giftName = giftsHistory['0'] ? giftsHistory['0'].name : '';
-          return giftName;
-        });
+        const { data: { giftsHistory }, error } = await getHistory(token);
+
+        if (typeof error == 'undefined') {
+          setGift(() => {
+            const giftName = giftsHistory['0'] ? giftsHistory['0'].name : '';
+            return giftName;
+          });
+        }
       }
     }
 
     getGifts();
   }, [hasEatenCake]);
 
+  const canEatCake = isReady && !hasEatenCake;
   return (
     <Flex sx={{
       height: '100%',
@@ -205,7 +214,8 @@ const Cake = () => {
         onClick={() => eatMeHandler()}
       >
         {!isReady && <Spinner />}
-        <AnimatedEatCake ref={eatMeRef} isReady={isReady} />
+        {!isActivated && <Box>You are not activated. Please contact executive office manager.</Box>}
+        <AnimatedEatCake ref={eatMeRef} isReady={canEatCake} />
       </Box>
       {isFetchingPrize && <Box sx={{ height: '60px', width: '100%' }}>*Drum roll...*</Box>}
       {prize && <Box>{getPrizeMessage(prize)}</Box>}
