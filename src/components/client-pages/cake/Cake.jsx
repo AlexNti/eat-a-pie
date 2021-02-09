@@ -7,6 +7,8 @@ import CakeModal from './components/CakeModal';
 import { useAuth } from '../../../hooks';
 import { getHistory, getPrize, isCakeEaten } from '../../../utils';
 import { auth } from '../../providers/authProvider/firebase';
+import GiftModal from './components/GiftModal';
+
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 
 const EAT_CAKE_ANIMATION_DURATION = 2000;
@@ -214,10 +216,11 @@ const Cake = () => {
         isFetchingPrize={isFetchingPrize}
       />
       )}
+      {hasEatenCake && <GiftModal>Gluttony is a sin!</GiftModal>}
 
       {prize && <Box>{getPrizeMessage(prize)}</Box>}
       <div>
-        {hasEatenCake && <Box>Gluttony is a sin!</Box>}
+
         {gift && <Box>{getHistoryMessage(gift)}</Box>}
       </div>
     </Flex>
