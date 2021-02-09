@@ -1,6 +1,6 @@
-import React from 'react'
-import Auth from 'components/authorization'
+import React from 'react';
+import { Link } from 'gatsby';
 
-const IndexPage = () => <Auth />
-
-export default IndexPage
+export default function Home() {
+  return <Link to="/app/login">Login</Link>;
+}

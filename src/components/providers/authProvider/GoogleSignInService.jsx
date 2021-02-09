@@ -1,7 +1,7 @@
-import { auth, googleAuthProvider } from './firebase';
+import getFirebase from './firebase';
 
 const signInWithGoogleFirebase = async () => {
-  const googleProfileData = await auth.signInWithPopup(googleAuthProvider);
+  const googleProfileData = await getFirebase().auth.signInWithPopup(getFirebase().googleAuthProvider);
   return googleProfileData;
 };
 

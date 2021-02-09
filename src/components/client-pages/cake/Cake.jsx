@@ -6,7 +6,7 @@ import CakeModal from './components/CakeModal';
 
 import { useAuth } from '../../../hooks';
 import { getHistory, getPrize, isCakeEaten } from '../../../utils';
-import { auth } from '../../providers/authProvider/firebase';
+import getFirebase from '../../providers/authProvider/firebase';
 import WinGiftModal from './components/WinGiftModal';
 import LoserModal from './components/LoserModal';
 
@@ -117,7 +117,7 @@ const Cake = () => {
   // check if user has already eaten the cake
   React.useEffect(() => {
     async function checkCake() {
-      const token = await auth.currentUser.getIdToken();
+      const token = await getFirebase().auth.currentUser.getIdToken();
       const { data: { hasUserEatTheCake }, error } = await isCakeEaten(token);
 
       if (typeof error === 'undefined') {
@@ -140,7 +140,7 @@ const Cake = () => {
     async function fetchPrize() {
       if (hasAnimationFinish.current) {
         setIsFetchingPrize(true);
-        const token = await auth.currentUser.getIdToken();
+        const token = await getFirebase().auth.currentUser.getIdToken();
         // kane thn klhrwsh
         await getPrize(token);
         setIsFetchingPrize(false);
@@ -156,7 +156,7 @@ const Cake = () => {
     async function getGifts() {
       if (hasEatenCake) {
         setIsReady(false);
-        const token = await auth.currentUser.getIdToken();
+        const token = await getFirebase().auth.currentUser.getIdToken();
         const { data: { giftsHistory }, error } = await getHistory(token);
 
         if (typeof error === 'undefined') {

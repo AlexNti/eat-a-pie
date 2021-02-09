@@ -13,10 +13,10 @@ const withAuthorization = redirect => Component => props => {
   };
 
   useEffect(() => {
-    if (authenticated === true && !!toPath) {
-      navigate(toPath);
+    if (authenticated === true) {
+      navigate("/app/pie");
     }
-  }, [authenticated, toPath]);
+  }, [authenticated]);
 
   return (
     <Component

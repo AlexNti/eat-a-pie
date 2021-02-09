@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { auth } from './firebase';
+import getFirebase from './firebase';
 
 const AuthContext = React.createContext({
   isAuthenticated: false,
@@ -15,12 +15,12 @@ const AuthContext = React.createContext({
 const AuthProvider = ({ children, authenticationService }) => {
   const isAuthenticated = React.useRef(false);
   const [authUser, setAuthUser] = React.useState(null);
+  const firebase = getFirebase();
 
   React.useEffect(() => {
     // Verify the ID token first.
     // TODO add gogole play games services silent login on authcontet when is not expo client
-
-    auth.onAuthStateChanged(async (user) => {
+    getFirebase().auth.onAuthStateChanged(async (user) => {
       if (user) {
         const token = await user.getIdToken();
         console.log(token);

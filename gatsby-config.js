@@ -11,6 +11,10 @@ module.exports = {
         path: `${__dirname}/src/`,
       },
     },
+    {
+      resolve: 'gatsby-plugin-create-client-paths',
+      options: { prefixes: ['/app/*'] },
+    },
     'gatsby-plugin-emotion',
     'gatsby-transformer-remark',
     'gatsby-plugin-theme-ui',
