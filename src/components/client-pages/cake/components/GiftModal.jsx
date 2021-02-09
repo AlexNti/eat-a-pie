@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Flex } from 'theme-ui';
+import { Flex } from 'theme-ui';
+import WinGiftCard from './WinGiftCard';
 
 const GiftModal = () => (
   <Flex sx={{
@@ -11,7 +12,10 @@ const GiftModal = () => (
     borderRadius: '20px',
     overflow: 'hidden',
   }}
-  />
+  >
+    <WinGiftCard />
+
+  </Flex>
 );
 
 export default React.memo(GiftModal);
