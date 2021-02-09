@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Spinner } from 'theme-ui';
+import { Box, Spinner, Text } from 'theme-ui';
 import AnimatedEatCake from './AnimatedEatCake';
 
 const EatTheCake = ({
@@ -29,7 +29,7 @@ const EatTheCake = ({
     onClick={() => eatMeHandler()}
   >
     {!isReady && <Spinner />}
-    {!isActivated && <Box>You are not activated. Please contact executive office manager.</Box>}
+    {!isActivated && <Text variant="winningMessage">You are not activated. Please contact executive office manager.</Text>}
     <AnimatedEatCake ref={eatMeRef} isReady={canEatCake} />
   </Box>
 );
