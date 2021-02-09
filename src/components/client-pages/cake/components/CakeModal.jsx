@@ -11,6 +11,7 @@ const CakeModal = ({
   eatMeRef,
   canEatCake,
   isEatmeAnimationActive,
+  isFetchingPrize,
 }) => (
   <Flex sx={{
     position: 'absolute',
@@ -22,6 +23,7 @@ const CakeModal = ({
     overflow: 'hidden',
   }}
   >
+    {!isFetchingPrize && (
     <EatTheCake
       cakeRef={cakeRef}
       eatMePauseHandler={eatMePauseHandler}
@@ -32,6 +34,20 @@ const CakeModal = ({
       canEatCake={canEatCake}
       isEatmeAnimationActive={isEatmeAnimationActive}
     />
+    )}
+
+    {isFetchingPrize && (
+    <Box sx={{
+      position: 'absolute',
+      transform: 'translate(-50%, -50%)',
+      top: '50%',
+      left: '50%',
+      zIndex: 1,
+    }}
+    >
+      <Spinner color="#3399FF" />
+    </Box>
+    )}
 
     <Box sx={{
       position: 'absolute',

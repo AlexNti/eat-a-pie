@@ -1,8 +1,7 @@
 import React from 'react';
-import { Box, Flex, Spinner } from 'theme-ui';
+import { Box, Flex } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
-import AnimatedEatCake from './components/AnimatedEatCake';
 import CakeModal from './components/CakeModal';
 
 import { useAuth } from '../../../hooks';
@@ -173,7 +172,7 @@ const Cake = () => {
     // this ref should be already set byt this time
     async function getGifts() {
       if (hasEatenCake) {
-        eatMeRefAnimation.current.currentTime = EAT_CAKE_ANIMATION_DURATION;
+        // eatMeRefAnimation.current.currentTime = EAT_CAKE_ANIMATION_DURATION;
         const token = await auth.currentUser.getIdToken();
         const { data: { giftsHistory }, error } = await getHistory(token);
 
@@ -208,9 +207,9 @@ const Cake = () => {
         eatMeRef={eatMeRef}
         canEatCake={canEatCake}
         cakeRef={cakeRef}
+        isFetchingPrize={isFetchingPrize}
       />
 
-      {isFetchingPrize && <Box sx={{ height: '60px', width: '100%' }}>*Drum roll...*</Box>}
       {prize && <Box>{getPrizeMessage(prize)}</Box>}
       <div>
         {hasEatenCake && <Box>Gluttony is a sin!</Box>}
