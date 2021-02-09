@@ -198,6 +198,7 @@ const Cake = () => {
       position: 'relative',
     }}
     >
+      { isReady && !hasEatenCake && (
       <CakeModal
         eatMePauseHandler={eatMePauseHandler}
         isEatmeAnimationActive={isEatmeAnimationActive}
@@ -209,6 +210,7 @@ const Cake = () => {
         cakeRef={cakeRef}
         isFetchingPrize={isFetchingPrize}
       />
+      )}
 
       {prize && <Box>{getPrizeMessage(prize)}</Box>}
       <div>
