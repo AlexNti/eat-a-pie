@@ -21,16 +21,16 @@ const EatTheCake = ({
       top: '71px',
       left: '187px;',
       ':hover': {
-        cursor: isEatmeAnimationActive ? null : 'pointer',
+        cursor: isActivated && isEatmeAnimationActive ? null : 'pointer',
       },
     }}
     ref={cakeRef}
     onMouseUp={() => eatMePauseHandler()}
-    onClick={() => eatMeHandler()}
+    onClick={() => isActivated && eatMeHandler()}
   >
     {!isReady && <Spinner />}
     {!isActivated && <Text variant="winningMessage">You are not activated. Please contact executive office manager.</Text>}
-    <AnimatedEatCake ref={eatMeRef} isReady={canEatCake} />
+    <AnimatedEatCake ref={eatMeRef} isReady={canEatCake && isActivated} />
   </Box>
 );
 
