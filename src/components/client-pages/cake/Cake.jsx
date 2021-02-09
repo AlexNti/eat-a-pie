@@ -8,6 +8,7 @@ import { useAuth } from '../../../hooks';
 import { getHistory, getPrize, isCakeEaten } from '../../../utils';
 import { auth } from '../../providers/authProvider/firebase';
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
+
 const EAT_CAKE_ANIMATION_DURATION = 2000;
 const Cake = () => {
   const authContext = useAuth();
@@ -44,8 +45,9 @@ const Cake = () => {
           duration: EAT_CAKE_ANIMATION_DURATION,
         },
       );
+      eatMePauseHandler();
     }
-    eatMePauseHandler(); // we pausing the eating animation because if we dont do it it will start without clicking it
+    // we pausing the eating animation because if we dont do it it will start without clicking it
   };
 
   const stopMovingCakeAnimation = () => {
@@ -123,7 +125,7 @@ const Cake = () => {
     if (eatMeRef.current !== null) {
       initiateEatCakeAnimation();
     }
-  }, [eatMeRef.current]);
+  });
 
   // add moving anivation to cake
   React.useEffect(() => {
@@ -162,6 +164,7 @@ const Cake = () => {
         const result = await getPrize(token);
         setPrize(result);
         setIsFetchingPrize(false);
+        setHasEatenCake(true);
       }
     }
 
