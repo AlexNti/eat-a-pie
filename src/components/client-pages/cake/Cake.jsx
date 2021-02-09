@@ -7,7 +7,7 @@ import CakeModal from './components/CakeModal';
 import { useAuth } from '../../../hooks';
 import { getHistory, getPrize, isCakeEaten } from '../../../utils';
 import { auth } from '../../providers/authProvider/firebase';
-import GiftModal from './components/GiftModal';
+import WinGiftModal from './components/WinGiftModal';
 
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 
@@ -216,7 +216,7 @@ const Cake = () => {
         isFetchingPrize={isFetchingPrize}
       />
       )}
-      {hasEatenCake && <GiftModal>Gluttony is a sin!</GiftModal>}
+      {hasEatenCake && <WinGiftModal />}
 
       {prize && <Box>{getPrizeMessage(prize)}</Box>}
       <div>
