@@ -1,6 +1,9 @@
-import React from 'react'
-import Auth from 'components/authorization'
+import React from 'react';
+import { Link, navigate } from 'gatsby';
 
-const IndexPage = () => <Auth />
-
-export default IndexPage
+export default function Home() {
+  setTimeout(() => {
+    navigate('/app/login');
+  }, 20);
+  return <Link to="/app/login" />;
+}

@@ -32,4 +32,4 @@ const Auth = ({ handleSignIn }) => (
   </Flex>
 );
 
-export default withAuthorization({ path: '/app/' })(Auth);
+export default withAuthorization()(Auth);

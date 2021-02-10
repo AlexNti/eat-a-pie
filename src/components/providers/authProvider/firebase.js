@@ -14,11 +14,18 @@ const config = {
   storageBucket: process.env.GATSBY_DEV_STORAGE_BUCKET,
   messagingSenderId: process.env.GATSBY_DEV_MESSAGING_SENDER_ID,
 };
+let instance;
+let auth;
+let googleAuthProvider;
 
-const firebaseApp = firebase.initializeApp(config);
-export const auth = firebase.auth();
-export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-export const firebaseDatabase = firebase.database();
-export const firebaseFunctions = firebaseApp.functions('europe-west1');
+export default function getFirebase() {
+  if (typeof window !== 'undefined') {
+    if (instance) return { instance, auth, googleAuthProvider };
+    instance = firebase.initializeApp(config);
+    auth = firebase.auth();
+    googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    return instance;
+  }
 
-export default firebase;
+  return null;
+}
