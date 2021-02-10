@@ -53,6 +53,16 @@ const CakeModal = ({
     />
     )}
 
+    <Box sx={{
+      position: 'absolute', zIndex: 1, bottom: '0px', left: '50%', transform: 'translate(-50%)',
+    }}
+    >
+      <svg width="157" height="10" viewBox="0 0 157 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="78.5" cy="5" rx="78.5" ry="5" fill="#F5E0E0" />
+      </svg>
+
+    </Box>
+
     {isFetchingPrize && (
     <Box sx={{
       position: 'absolute',
