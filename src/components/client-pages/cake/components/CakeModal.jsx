@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, Flex, Spinner } from 'theme-ui';
+import {
+  Box, Flex, Spinner, Text,
+} from 'theme-ui';
 import EatTheCake from './EatTheCake';
 
 const CakeModal = ({
@@ -12,6 +14,7 @@ const CakeModal = ({
   canEatCake,
   isEatmeAnimationActive,
   isFetchingPrize,
+  message = '',
 }) => (
   <Flex sx={{
     position: 'absolute',
@@ -23,6 +26,19 @@ const CakeModal = ({
     overflow: 'hidden',
   }}
   >
+    <Text
+      variant="cheerMessage"
+      sx={{
+        position: 'absolute',
+        zIndex: 1,
+        top: '48px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        fontSize: '16px',
+      }}
+    >
+      {message}
+    </Text>
     {!isFetchingPrize && (
     <EatTheCake
       cakeRef={cakeRef}
