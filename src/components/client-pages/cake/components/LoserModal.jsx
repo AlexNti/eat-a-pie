@@ -29,6 +29,8 @@ const LoserModal = () => (
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
+        boxShadow: '0px 16px 40px rgb(84 89 95 / 20%)',
+
       }}
     >
       <Box

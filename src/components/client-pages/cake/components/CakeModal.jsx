@@ -24,6 +24,7 @@ const CakeModal = ({
     background: ' #F9F9F9',
     borderRadius: '20px',
     overflow: 'hidden',
+    boxShadow: '0px 16px 40px rgb(84 89 95 / 20%)',
   }}
   >
     <Text
