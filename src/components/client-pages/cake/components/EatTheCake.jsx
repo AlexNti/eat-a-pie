@@ -18,8 +18,8 @@ const EatTheCake = ({
       height: '226px',
       position: 'absolute',
       zIndex: 1,
-      top: '71px',
-      left: '187px;',
+      top: '88px',
+      left: '226px;',
       ':hover': {
         cursor: isActivated && isEatmeAnimationActive ? null : 'pointer',
       },
