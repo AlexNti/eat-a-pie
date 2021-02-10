@@ -54,7 +54,7 @@ const CakeModal = ({
     )}
 
     <Box sx={{
-      position: 'absolute', zIndex: 1, bottom: '0px', left: '50%', transform: 'translate(-50%)',
+      position: 'absolute', zIndex: 1, bottom: '63px', left: '50%', transform: 'translate(-50%)',
     }}
     >
       <svg width="157" height="10" viewBox="0 0 157 10" fill="none" xmlns="http://www.w3.org/2000/svg">
