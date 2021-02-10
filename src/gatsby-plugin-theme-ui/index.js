@@ -9,7 +9,14 @@ export default {
     small: '0.8em', mediumg: '1em', large: '1.7em', veryLarge: '2.7em',
   },
   fonts: {
-    heading: 'Londrina Solid',
+    heading: 'montserrat',
+  },
+  styles: {
+    root: {
+      // uses the theme values provided above
+      fontFamily: 'montserrat',
+      fontWeight: 400,
+    },
   },
   text: {
     default: {
@@ -27,6 +34,7 @@ export default {
       height: '24px',
     },
     cheerMessage: {
+      fontFamily: 'heading',
       width: '298px',
       height: '20px',
       fontWeight: 400,
