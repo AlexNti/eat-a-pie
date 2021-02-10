@@ -12,6 +12,8 @@ import LoserModal from './components/LoserModal';
 
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 
+const CAKE_MESSAGES = ['Click and bite!', 'Click again to build your app...etite.', 'One click closer…', 'Another click bites the cake…', 'Click your last bite and prepare…'];
+
 const EAT_CAKE_ANIMATION_DURATION = 2000;
 const Cake = () => {
   const authContext = useAuth();
@@ -173,6 +175,11 @@ const Cake = () => {
     getGifts();
   }, [hasEatenCake]);
 
+  const currentMessageForEatCake = () => {
+    if (!eatMeRefAnimation.current) return CAKE_MESSAGES[0];
+    return CAKE_MESSAGES[eatMeRefAnimation.current.currentTime / 500];
+  };
+
   const canEatCake = isReady && !hasEatenCake;
   const hasWonPrize = gift !== '';
 
@@ -196,6 +203,7 @@ const Cake = () => {
           canEatCake={canEatCake}
           cakeRef={cakeRef}
           isFetchingPrize={isFetchingPrize}
+          message={currentMessageForEatCake()}
         />
       )}
       {isReady && hasWonPrize && <WinGiftModal gift={gift} />}

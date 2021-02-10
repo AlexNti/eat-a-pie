@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, Flex, Spinner } from 'theme-ui';
+import {
+  Box, Flex, Spinner, Text,
+} from 'theme-ui';
 import EatTheCake from './EatTheCake';
 
 const CakeModal = ({
@@ -12,6 +14,7 @@ const CakeModal = ({
   canEatCake,
   isEatmeAnimationActive,
   isFetchingPrize,
+  message = '',
 }) => (
   <Flex sx={{
     position: 'absolute',
@@ -21,8 +24,22 @@ const CakeModal = ({
     background: ' #F9F9F9',
     borderRadius: '20px',
     overflow: 'hidden',
+    boxShadow: '0px 16px 40px rgb(84 89 95 / 20%)',
   }}
   >
+    <Text
+      variant="cheerMessage"
+      sx={{
+        position: 'absolute',
+        zIndex: 1,
+        top: '48px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        fontSize: '16px',
+      }}
+    >
+      {message}
+    </Text>
     {!isFetchingPrize && (
     <EatTheCake
       cakeRef={cakeRef}
@@ -35,6 +52,16 @@ const CakeModal = ({
       isEatmeAnimationActive={isEatmeAnimationActive}
     />
     )}
+
+    <Box sx={{
+      position: 'absolute', zIndex: 1, bottom: '63px', left: '50%', transform: 'translate(-50%)',
+    }}
+    >
+      <svg width="157" height="10" viewBox="0 0 157 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="78.5" cy="5" rx="78.5" ry="5" fill="#F5E0E0" />
+      </svg>
+
+    </Box>
 
     {isFetchingPrize && (
     <Box sx={{

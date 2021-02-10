@@ -31,6 +31,7 @@ const EatTheCake = ({
     {!isReady && <Spinner />}
     {!isActivated && <Text variant="winningMessage">You are not activated. Please contact executive office manager.</Text>}
     <AnimatedEatCake ref={eatMeRef} isReady={canEatCake && isActivated} />
+
   </Box>
 );
 
