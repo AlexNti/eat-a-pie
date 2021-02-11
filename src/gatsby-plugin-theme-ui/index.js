@@ -19,6 +19,12 @@ export default {
     },
   },
   text: {
+    loginText: {
+      fontSize: '20px',
+      textAlign: 'center',
+      width: '292px',
+
+    },
     default: {
       fontFamily: 'heading',
       color: 'text',
