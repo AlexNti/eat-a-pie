@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex } from 'theme-ui';
+import { Flex, Button } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import CakeModal from './components/CakeModal';
@@ -192,6 +192,21 @@ const Cake = () => {
       position: 'relative',
     }}
     >
+      <Button
+        onClick={authContext.signOut}
+        sx={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          zIndex: 10,
+          color: '#09539A',
+          ':hover': {
+            cursor: 'pointer',
+          },
+        }}
+      >
+        Logout
+      </Button>
       {canEatCake && (
         <CakeModal
           eatMePauseHandler={eatMePauseHandler}

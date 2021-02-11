@@ -56,7 +56,7 @@ const AuthProvider = ({ children, authenticationService }) => {
   }, [authUser]);
 
   const signOut = React.useCallback(
-    ({ onSuccess = () => {}, onError = () => {} } = {}) => auth.signOut().then(onSuccess).catch(onError),
+    ({ onSuccess = () => {}, onError = () => {} } = {}) => getFirebase().auth.signOut().then(onSuccess).catch(onError),
     [],
   );
 
