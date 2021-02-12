@@ -25,6 +25,7 @@ export default {
       width: '292px',
 
     },
+
     default: {
       fontFamily: 'heading',
       color: 'text',

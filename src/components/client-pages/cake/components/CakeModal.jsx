@@ -20,7 +20,7 @@ const CakeModal = ({
     position: 'absolute',
     width: '755px',
     height: '405px',
-    top: 154,
+    top: '200px',
     background: ' #F9F9F9',
     borderRadius: '20px',
     overflow: 'hidden',

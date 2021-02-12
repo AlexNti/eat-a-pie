@@ -1,5 +1,7 @@
 import React from 'react';
-import { Flex, Button } from 'theme-ui';
+import {
+  Flex, Button, Box, Text,
+} from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import CakeModal from './components/CakeModal';
@@ -192,6 +194,11 @@ const Cake = () => {
       position: 'relative',
     }}
     >
+      <Box sx={{ position: 'absolute', top: '110px' }}>
+        <Text sx={{ fontSize: '28px' }}>LUCKY CAKE</Text>
+        <Text sx={{ fontWeight: 700, fontSize: '38px', textAlign: 'center' }}>2021</Text>
+
+      </Box>
       <Button
         onClick={authContext.signOut}
         sx={{
