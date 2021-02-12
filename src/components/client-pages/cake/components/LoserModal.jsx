@@ -26,9 +26,9 @@ const LoserModal = () => (
         width: '755px',
         overflow: 'hidden',
         position: 'absolute',
-        top: '50%',
+        top: '200px',
         left: '50%',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translate(-50%, -0%)',
         boxShadow: '0px 16px 40px rgb(84 89 95 / 20%)',
 
       }}
