@@ -8,7 +8,7 @@ const Layout = ({ children }) => (
     {/* some styles should applied globally via the layout */}
 
     <Flex
-      bg="white"
+      bg="background"
       sx={{
         minHeight: '100vh',
         height: '10px',
@@ -47,8 +47,8 @@ const Layout = ({ children }) => (
               y2="771.515"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stopColor="#3399FF" />
-              <stop offset="1" stopColor="#005ECE" />
+              <stop stopColor="#1F0256" />
+              <stop offset="1" stopColor="#17CCFC" />
             </linearGradient>
           </defs>
         </svg>

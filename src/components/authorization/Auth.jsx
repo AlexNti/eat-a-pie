@@ -135,9 +135,9 @@ const Auth = ({ handleSignIn }) => (
               y2="30.0487"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#17CCFC" />
-              <stop offset="0.5" stop-color="#5D31FF" />
-              <stop offset="1" stop-color="#F35AFF" />
+              <stop stopColor="#17CCFC" />
+              <stop offset="0.5" stopColor="#5D31FF" />
+              <stop offset="1" stopColor="#F35AFF" />
             </linearGradient>
             <linearGradient
               id="paint1_linear_2176_4249"
@@ -147,9 +147,9 @@ const Auth = ({ handleSignIn }) => (
               y2="30.0487"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#17CCFC" />
-              <stop offset="0.5" stop-color="#5D31FF" />
-              <stop offset="1" stop-color="#F35AFF" />
+              <stop stopColor="#17CCFC" />
+              <stop offset="0.5" stopColor="#5D31FF" />
+              <stop offset="1" stopColor="#F35AFF" />
             </linearGradient>
           </defs>
         </svg>

@@ -3,10 +3,12 @@ export default {
     text: '#fff',
     background: '#F5E0E0',
     winningMessage: '#015FCF',
-
   },
   fontSizes: {
-    small: '0.8em', mediumg: '1em', large: '1.7em', veryLarge: '2.7em',
+    small: '0.8em',
+    mediumg: '1em',
+    large: '1.7em',
+    veryLarge: '2.7em',
   },
   fonts: {
     heading: 'montserrat',
@@ -23,7 +25,6 @@ export default {
       fontSize: '20px',
       textAlign: 'center',
       width: '292px',
-
     },
 
     default: {
@@ -47,7 +48,6 @@ export default {
       fontWeight: 400,
       textAlign: 'center',
       color: 'winningMessage',
-
     },
   },
 };
