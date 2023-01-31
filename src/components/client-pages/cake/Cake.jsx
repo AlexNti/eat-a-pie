@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Flex, Button, Box, Text,
-} from 'theme-ui';
+import { Flex, Button, Box, Text } from 'theme-ui';
 
 import { tryMeKeys, bounceCakeKeys } from '../../../animation/cakeAnimations';
 import CakeModal from './components/CakeModal';
@@ -14,7 +12,13 @@ import LoserModal from './components/LoserModal';
 
 // TODO REFACTOR ALL THIS FILE (BREAK IT SMALLER COMPONENTS USE OF CONSTANTS ETC...)
 
-const CAKE_MESSAGES = ['Click and bite!', 'Click again to build your app...etite.', 'One click closer…', 'Another click bites the cake…', 'Click your last bite and prepare…'];
+const CAKE_MESSAGES = [
+  'Click and bite!',
+  'Click again to build your app...etite.',
+  'One click closer…',
+  'Another click bites the cake…',
+  'Click your last bite and prepare…',
+];
 
 const EAT_CAKE_ANIMATION_DURATION = 2000;
 const Cake = () => {
@@ -24,7 +28,9 @@ const Cake = () => {
   const eatMeRefAnimation = React.useRef(null);
   const movingCakeTimeRef = React.useRef(null);
   const hasAnimationFinish = React.useRef(false);
-  const [isEatmeAnimationActive, setIsEatmeAnimationActive] = React.useState(false);
+  const [isEatmeAnimationActive, setIsEatmeAnimationActive] = React.useState(
+    false
+  );
   const [isFetchingPrize, setIsFetchingPrize] = React.useState(false);
   const [isReady, setIsReady] = React.useState(false);
   const [hasEatenCake, setHasEatenCake] = React.useState(false);
@@ -34,7 +40,10 @@ const Cake = () => {
   const moveCake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
       cakeRef.current.animate(tryMeKeys, {
-        id: 'bounce', delay: 2000, duration: 500, iterations: 2,
+        id: 'bounce',
+        delay: 2000,
+        duration: 500,
+        iterations: 2,
       });
     }
   };
@@ -42,14 +51,12 @@ const Cake = () => {
   const initiateEatCakeAnimation = () => {
     if (eatMeRef !== null && eatMeRef.current.getAnimations().length < 1) {
       eatMeRefAnimation.current = eatMeRef.current.animate(
-        [
-          { transform: 'translateY(0)' },
-          { transform: 'translateY(-80%)' },
-        ], {
+        [{ transform: 'translateY(0)' }, { transform: 'translateY(-80%)' }],
+        {
           fill: 'forwards',
           easing: 'steps(4, end)',
           duration: EAT_CAKE_ANIMATION_DURATION,
-        },
+        }
       );
       eatMePauseHandler();
     }
@@ -59,7 +66,7 @@ const Cake = () => {
   const stopMovingCakeAnimation = () => {
     clearInterval(movingCakeTimeRef.current); // stop the moving animation of cake
     if (cakeRef.current.getAnimations()[0]) {
-      cakeRef.current.getAnimations().forEach((animation) => {
+      cakeRef.current.getAnimations().forEach(animation => {
         if (animation.id === 'bounce') {
           animation.cancel(); // also cancel the animation playing
         }
@@ -71,7 +78,9 @@ const Cake = () => {
     if (cakeRef !== null && !hasAnimationFinish.current) {
       if (!cakeRef.current.getAnimations().length) {
         cakeRef.current.animate(bounceCakeKeys, {
-          id: 'heartBeat', duration: 1300, easing: 'ease-in-out',
+          id: 'heartBeat',
+          duration: 1300,
+          easing: 'ease-in-out',
         });
 
         const currentAnimation = cakeRef.current.getAnimations()[0];
@@ -86,12 +95,19 @@ const Cake = () => {
   // start the eating animation
   const eatMeHandler = React.useCallback(() => {
     stopMovingCakeAnimation();
-    if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current && !isEatmeAnimationActive) {
+    if (
+      eatMeRefAnimation !== null &&
+      eatMeRefAnimation.current &&
+      !hasAnimationFinish.current &&
+      !isEatmeAnimationActive
+    ) {
       // eatMeRefAnimation.current.play();
       handleCakeAnimationOnClick();
       setIsEatmeAnimationActive(true);
       eatMeRefAnimation.current.currentTime += 500;
-      if (eatMeRefAnimation.current.currentTime >= EAT_CAKE_ANIMATION_DURATION) {
+      if (
+        eatMeRefAnimation.current.currentTime >= EAT_CAKE_ANIMATION_DURATION
+      ) {
         eatMeRefAnimation.current.finish();
       }
     }
@@ -99,7 +115,11 @@ const Cake = () => {
 
   // pause the eating animation
   const eatMePauseHandler = React.useCallback(() => {
-    if (eatMeRefAnimation !== null && eatMeRefAnimation.current && !hasAnimationFinish.current) {
+    if (
+      eatMeRefAnimation !== null &&
+      eatMeRefAnimation.current &&
+      !hasAnimationFinish.current
+    ) {
       eatMeRefAnimation.current.pause();
     }
   }, [eatMeRefAnimation.current]);
@@ -122,7 +142,10 @@ const Cake = () => {
   React.useEffect(() => {
     async function checkCake() {
       const token = await getFirebase().auth.currentUser.getIdToken();
-      const { data: { hasUserEatTheCake }, error } = await isCakeEaten(token);
+      const {
+        data: { hasUserEatTheCake },
+        error,
+      } = await isCakeEaten(token);
 
       if (typeof error === 'undefined') {
         setIsActivated(true);
@@ -136,7 +159,9 @@ const Cake = () => {
 
   React.useEffect(() => {
     if (eatMeRefAnimation.current !== null) {
-      eatMeRefAnimation.current.onfinish = () => { hasAnimationFinish.current = true; };
+      eatMeRefAnimation.current.onfinish = () => {
+        hasAnimationFinish.current = true;
+      };
     }
   }, [eatMeRefAnimation.current]);
 
@@ -161,7 +186,10 @@ const Cake = () => {
       if (hasEatenCake) {
         setIsReady(false);
         const token = await getFirebase().auth.currentUser.getIdToken();
-        const { data: { giftsHistory }, error } = await getHistory(token);
+        const {
+          data: { giftsHistory },
+          error,
+        } = await getHistory(token);
 
         if (typeof error === 'undefined') {
           setGift(() => {
@@ -186,18 +214,20 @@ const Cake = () => {
   const hasWonPrize = gift !== '';
 
   return (
-    <Flex sx={{
-      height: '100%',
-      width: '100%',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'relative',
-    }}
+    <Flex
+      sx={{
+        height: '100%',
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+      }}
     >
       <Box sx={{ position: 'absolute', top: '80px' }}>
         <Text sx={{ fontSize: '28px' }}>LUCKY CAKE</Text>
-        <Text sx={{ fontWeight: 700, fontSize: '38px', textAlign: 'center' }}>2021</Text>
-
+        <Text sx={{ fontWeight: 700, fontSize: '38px', textAlign: 'center' }}>
+          2023
+        </Text>
       </Box>
       <Button
         onClick={authContext.signOut}

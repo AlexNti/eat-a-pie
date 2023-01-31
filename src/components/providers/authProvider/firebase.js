@@ -4,7 +4,6 @@ import 'firebase/auth';
 import 'firebase/functions';
 import 'firebase/firestore';
 
-console.log(process.env.GATSBY_FIREBASE_API_KEY);
 // @ts-ignore
 const config = {
   apiKey: process.env.GATSBY_FIREBASE_API_KEY,
