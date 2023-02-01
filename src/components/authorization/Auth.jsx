@@ -76,7 +76,7 @@ const Auth = ({ handleSignIn }) => (
           >
             <stop stopColor="#17CCFC" />
             <stop offset="0.5" stopColor="#5D31FF" />
-            <stop offset="1" stopColor="#F35AFF" />
+            <stop offset="1" stopolor="#F35AFF" />
           </linearGradient>
           <clipPath id="clip0_28400_184655">
             <rect width="320.833" height="100" fill="white" />
@@ -85,7 +85,7 @@ const Auth = ({ handleSignIn }) => (
       </svg>
 
       <Text sx={{ marginTop: '40px' }} variant="loginText">
-        The luckiest cake of your life! Talk about click...bite.
+        Clerk's Cut Of Vasilopita
       </Text>
     </Flex>
 
