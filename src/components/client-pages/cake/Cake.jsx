@@ -224,7 +224,7 @@ const Cake = () => {
       }}
     >
       <Box sx={{ position: 'absolute', top: '80px' }}>
-        <Text sx={{ fontSize: '28px' }}>LUCKY CAKE</Text>
+        <Text sx={{ fontSize: '28px' }}>Clerk Vasilopita</Text>
         <Text sx={{ fontWeight: 700, fontSize: '38px', textAlign: 'center' }}>
           2023
         </Text>
